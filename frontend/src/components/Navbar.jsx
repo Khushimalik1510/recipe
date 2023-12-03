@@ -1,15 +1,17 @@
-import { Link } from "react-router-dom";
-import {useCookies} from 'react-cookie';
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 
-
 const Navbar = () => {
-    const[cookies, setCookies] =useCookies(["Access_token"]);
-    const navigate=useNavigate();
-    const logout=()=>{
-        setCookies("Access_token", "");
-        navigate('/login')
-    }
+    const [cookies, setCookies] = useCookies(['Access_token']);
+    const navigate = useNavigate();
+
+    const logout = () => {
+        setCookies('Access_token', '');
+        navigate('/login');
+    };
+
     return (
         <div className="bg-teal-800">
             <div className="flex flex-row items-center">
@@ -23,19 +25,33 @@ const Navbar = () => {
                     </Link>
                 </div>
 
-                <div className="flex-grow"></div> 
+                <div className="flex-grow"></div>
 
                 <div className="align-items justify-items-end p-4 flex flex-row">
-                   
-                    <div className="m-2 p-2"><Link to="/createrecipe">Create Recipe</Link></div>
-                    {!cookies.Access_token ?(<><div className="m-2 p-2"><Link to="/login">Login</Link></div><div className="m-2 p-2"><Link to="/signup">Signup</Link></div></>):(
-                        <button onClick={logout}>Logout</button>
+                    {cookies.Access_token ? (
+                        <>
+                            <div className="m-2 p-2">
+                                <Link to="/createrecipe">Create Recipe</Link>
+                            </div>
+                            {/* <div className="m-2 p-2">
+                                <Link to="/profile">Profile</Link>
+                            </div> */}
+                            <button className="m-2 p-2" onClick={logout}>Logout</button>
+                        </>
+                    ) : (
+                        <>
+                            <div className="m-2 p-2">
+                                <Link to="/login">Login</Link>
+                            </div>
+                            <div className="m-2 p-2">
+                                <Link to="/signup">Signup</Link>
+                            </div>
+                        </>
                     )}
-                    
                 </div>
             </div>
         </div>
     );
-}
+};
 
 export default Navbar;
